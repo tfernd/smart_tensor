@@ -1,0 +1,13 @@
+[package]
+name = "smart_tensor"
+version = "0.0.1"
+authors = ["Thales F. D. Fernandes"]
+edition = "2021"
+readme = "README.md"
+keywords = ["tensor", "array"]
+# description = ""
+# documentation = ""
+# repository = ""
+# license = "MIT OR Apache-2.0"
+
+[dependencies]
