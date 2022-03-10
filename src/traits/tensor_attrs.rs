@@ -1,14 +1,11 @@
 use crate::Stride;
 
-pub trait TensorAttributes<const DIM: usize>
-where
-    [(); DIM - 1]: Sized,
-{
+pub trait TensorAttributes<const DIM: usize> {
+    const DIM: usize = DIM;
     const SHAPE: [usize; DIM];
     const NUMEL: usize;
-    const DIM: usize;
 
-    fn stride(&self) -> Stride<DIM>;
+    fn stride(&self) -> Stride<{ Self::DIM }>;
     fn is_cannonical(&self) -> bool;
 
     #[inline]
@@ -23,6 +20,6 @@ where
 
     #[inline]
     fn dim(&self) -> usize {
-        DIM
+        Self::DIM
     }
 }

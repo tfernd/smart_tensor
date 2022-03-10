@@ -1,17 +1,15 @@
-// ? Add const SIZE?
+/// A trait to mark data types allowed inside a tensor.
 pub trait Data {
     type Type;
 
+    /// Returns the number of elements the data structure holds.
     fn len(&self) -> usize;
 }
-
-/* -------------------------------------------------------------------------- */
-/*                               implementations                              */
-/* -------------------------------------------------------------------------- */
 
 impl<T> Data for Vec<T> {
     type Type = T;
 
+    // ? A bit silly this...
     #[inline]
     fn len(&self) -> usize {
         self.len()
@@ -36,7 +34,10 @@ impl<T> Data for &mut [T] {
     }
 }
 
-impl<T, const SIZE: usize> Data for [T; SIZE] {
+impl<T, const SIZE: usize> Data for [T; SIZE]
+where
+    [(); SIZE - 1]: Sized, // SIZE >= 1
+{
     type Type = T;
 
     #[inline]

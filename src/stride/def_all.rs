@@ -1,15 +1,10 @@
 use super::Stride;
 
-impl<const DIM: usize> Stride<DIM>
-where
-    [(); DIM - 1]: Sized, // DIM >= 1
-{
-    /// Create a new Stride.
+impl<const DIM: usize> Stride<DIM> {
     pub fn new(stride: [isize; DIM]) -> Self {
         Self(stride)
     }
 
-    /// Create default strides from a given `shape`.
     pub fn default_stride(shape: [usize; DIM]) -> Self {
         let mut stride = [1; DIM];
 

@@ -1,17 +1,17 @@
-macro_rules! impl_new {
+macro_rules! def_new {
     ( $tensor:ident, $dim:literal, [$($s:tt)+] ) => {
-        impl<D, $(const $s: usize),+, const CANNONICAL: bool> $tensor<D, $($s),+, CANNONICAL>
+        impl<D: Data, $(const $s: usize),+, const CANNONICAL: bool> $tensor<D, $($s),+, CANNONICAL>
         where
-            D: Data,
             $([(); $s - 1]: Sized),+ // $s >= 1
         {
             #[inline]
-            pub fn new(data: D) -> Self {
+            pub(crate) fn new(data: D) -> Self {
+                // ? Can we remove this and make sure that the data is the correct size?
                 assert!(data.len() == Self::NUMEL);
 
                 let stride = Stride::default_stride(Self::SHAPE);
                 Self { data, stride }
             }
         }
-    };
+    }
 }
