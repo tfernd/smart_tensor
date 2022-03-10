@@ -4,23 +4,13 @@
 #[macro_use]
 mod macros;
 
+mod data;
 mod stride;
 mod tensor;
 mod traits;
-
-pub use stride::Stride;
+pub use data::*;
+pub use stride::*;
+pub use tensor::*;
 pub use traits::*;
-
-// pub trait DataGetter: Data {
-//     fn get(&self, index: usize) -> Self::Type;
-// }
-
-// pub trait DataMutGetter: Data + DataGetter {
-//     fn get_mut(&mut self, index: usize) -> Self::Type;
-// }
-
-// pub trait DataSetter: Data {
-//     fn set(&mut self, index: usize, value: Self::Type);
-// }
 
 fn main() {}

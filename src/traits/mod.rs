@@ -1,7 +1,5 @@
 mod data;
-mod tensor_attrs;
-mod tensor_empty;
+mod tensor;
 
 pub use data::Data;
-pub use tensor_attrs::TensorAttributes;
-pub use tensor_empty::TensorEmpty;
+pub use tensor::Tensor;
