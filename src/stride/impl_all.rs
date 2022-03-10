@@ -2,7 +2,7 @@ use super::Stride;
 
 impl<const DIM: usize> Stride<DIM>
 where
-    [(); DIM - 1]: Sized, // D >= 1
+    [(); DIM - 1]: Sized, // DIM >= 1
 {
     /// Create a new Stride.
     pub fn new(stride: [isize; DIM]) -> Self {

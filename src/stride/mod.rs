@@ -1,7 +1,7 @@
 mod impl_all; // TODO rename
 
-/// Tensor strides (`DIM` >= 1).
+/// Tensor strides.
 #[derive(Debug, Clone)]
 pub struct Stride<const DIM: usize>([isize; DIM])
 where
-    [(); DIM - 1]: Sized; // D >= 1
+    [(); DIM - 1]: Sized; // DIM >= 1
