@@ -6,11 +6,14 @@
 mod macros;
 
 mod data;
+mod stride;
 mod tensor;
 mod traits;
 
 #[doc(hidden)]
 pub use data::*;
+#[doc(hidden)]
+pub use stride::*;
 #[doc(hidden)]
 pub use tensor::*;
 #[doc(hidden)]
