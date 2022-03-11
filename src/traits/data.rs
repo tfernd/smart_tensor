@@ -38,31 +38,25 @@ where
 
 /// A marker for creating data filled with a given value
 /// with the same container type as the data.
-// ? Self::Output::Item and Self::Item can be different, but usually we don't want this.
 pub trait FullLikeData: Data
 where
-    Self::Output: FullData,
-    <Self::Output as Data>::Item: Copy + Zero + One,
+    Self::Output: FullData<Item = Self::Item>,
+    Self::Item: Copy + Zero + One,
 {
-    /// The data output structure type.
     type Output;
 
     /// Creates a data structure filled with `value` with same length.
-    fn full_like(&self, value: <Self::Output as Data>::Item) -> Self::Output {
+    fn full_like(&self, value: Self::Item) -> Self::Output {
         Self::Output::full(value)
     }
 
-    /// Creates a data structure filled with zeros with same shape.
     #[inline]
     fn zeros_like(&self) -> Self::Output {
-        self.full_like(<Self::Output as Data>::Item::zero())
+        self.full_like(Self::Item::zero())
     }
 
-    /// Creates a data structure filled with ones with same shape.
     #[inline]
     fn ones_like(&self) -> Self::Output {
-        self.full_like(<Self::Output as Data>::Item::one())
+        self.full_like(Self::Item::one())
     }
 }
-
-// ? How to create arange?

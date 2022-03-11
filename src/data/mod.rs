@@ -5,16 +5,16 @@ mod impl_full_like_data;
 
 /// Data structure that owns data on the stack.
 #[derive(Debug)]
-pub struct StackData<T, const NUMEL: usize>([T; NUMEL]);
+pub struct StackData<T, const NUMEL: usize>(pub(crate) [T; NUMEL]);
 
 /// Data structure that owns data on the heap.
 #[derive(Debug)]
-pub struct HeapData<T, const NUMEL: usize>(Vec<T>);
+pub struct HeapData<T, const NUMEL: usize>(pub(crate) Vec<T>);
 
 /// Data structure that references immutably data.
 #[derive(Debug)]
-pub struct SliceData<'a, T, const NUMEL: usize, const STACK: bool>(&'a [T]);
+pub struct SliceData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a [T]);
 
 /// Data structure that references mutably data.
 #[derive(Debug)]
-pub struct MutSliceData<'a, T, const NUMEL: usize, const STACK: bool>(&'a mut [T]);
+pub struct MutSliceData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a mut [T]);

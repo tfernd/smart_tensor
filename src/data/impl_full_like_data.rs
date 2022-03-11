@@ -3,46 +3,22 @@ use num_traits::{One, Zero};
 use super::*;
 use crate::traits::FullLikeData;
 
-// TODO avoid repetition using macros
-
-impl<T, const NUMEL: usize> FullLikeData for StackData<T, NUMEL>
-where
-    T: Copy + Zero + One,
-{
-    type Output = StackData<T, NUMEL>;
+macro_rules! impl_full_like {
+    ($data:ident $output:ident $($bool:literal $l:lifetime)?) => {
+        impl<$($l,)? T, const NUMEL: usize> FullLikeData for $data<$($l,)? T, NUMEL $(,$bool)?>
+        where
+            T: Copy + Zero + One,
+        {
+            type Output = $output<T, NUMEL>;
+        }
+    };
 }
 
-impl<T, const NUMEL: usize> FullLikeData for HeapData<T, NUMEL>
-where
-    T: Copy + Zero + One,
-{
-    type Output = HeapData<T, NUMEL>;
-}
+impl_full_like!(StackData StackData);
+impl_full_like!(HeapData HeapData);
 
-impl<'a, T, const NUMEL: usize> FullLikeData for SliceData<'a, T, NUMEL, true>
-where
-    T: Copy + Zero + One,
-{
-    type Output = StackData<T, NUMEL>;
-}
+impl_full_like!(SliceData StackData true 'a);
+impl_full_like!(SliceData HeapData false 'a);
 
-impl<'a, T, const NUMEL: usize> FullLikeData for SliceData<'a, T, NUMEL, false>
-where
-    T: Copy + Zero + One,
-{
-    type Output = HeapData<T, NUMEL>;
-}
-
-impl<'a, T, const NUMEL: usize> FullLikeData for MutSliceData<'a, T, NUMEL, true>
-where
-    T: Copy + Zero + One,
-{
-    type Output = StackData<T, NUMEL>;
-}
-
-impl<'a, T, const NUMEL: usize> FullLikeData for MutSliceData<'a, T, NUMEL, false>
-where
-    T: Copy + Zero + One,
-{
-    type Output = HeapData<T, NUMEL>;
-}
+impl_full_like!(MutSliceData StackData true 'a);
+impl_full_like!(MutSliceData HeapData false 'a);

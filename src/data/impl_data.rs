@@ -1,26 +1,17 @@
 use super::*;
 use crate::traits::Data;
 
-impl<T, const NUMEL: usize> Data for StackData<T, NUMEL> {
-    type Item = T;
+macro_rules! impl_data {
+    ( $data:ident $($l:lifetime $s:ident)? ) => {
+        impl<$($l,)? T, const NUMEL: usize $(,const $s: bool)?> Data for $data<$($l,)? T, NUMEL $(,$s)?> {
+            type Item = T;
 
-    const NUMEL: usize = NUMEL;
+            const NUMEL: usize = NUMEL;
+        }
+    };
 }
 
-impl<T, const NUMEL: usize> Data for HeapData<T, NUMEL> {
-    type Item = T;
-
-    const NUMEL: usize = NUMEL;
-}
-
-impl<'a, T, const NUMEL: usize, const STACK: bool> Data for SliceData<'a, T, NUMEL, STACK> {
-    type Item = T;
-
-    const NUMEL: usize = NUMEL;
-}
-
-impl<'a, T, const NUMEL: usize, const STACK: bool> Data for MutSliceData<'a, T, NUMEL, STACK> {
-    type Item = T;
-
-    const NUMEL: usize = NUMEL;
-}
+impl_data!(StackData);
+impl_data!(HeapData);
+impl_data!(SliceData 'a STACK);
+impl_data!(MutSliceData 'a STACK);
