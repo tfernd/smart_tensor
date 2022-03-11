@@ -7,6 +7,7 @@ pub use aliases::*;
 use crate::traits::{
     DataEmptyTrait, DataFullTrait, DataTrait, TensorEmptyTrait, TensorFullTrait, TensorTrait,
 };
+use crate::Stride;
 
 #[doc(hidden)]
 macro_rules! make_tensor {
@@ -15,6 +16,7 @@ macro_rules! make_tensor {
         #[derive(Debug)]
         pub struct $tensor<D: DataTrait, $(const $s: usize),+> {
             pub(crate) data: D,
+            pub(crate) stride: Stride<$dim>
         }
 
         impl<D: DataTrait, $(const $s: usize),+> TensorTrait<$dim> for $tensor<D, $($s),+> {
@@ -24,7 +26,9 @@ macro_rules! make_tensor {
 
             #[inline]
             unsafe fn new(data: Self::Data) -> Self {
-                Self { data }
+                let stride = Stride::default_stride(Self::SHAPE);
+
+                Self { data, stride }
             }
         }
 
