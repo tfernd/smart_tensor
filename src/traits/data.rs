@@ -2,7 +2,7 @@ use num_traits::{One, Zero};
 
 /// A marker for structures that holds data.
 pub trait DataTrait: Sized {
-    /// The data structure inner type.
+    /// The data type of the inner structure.
     type Type;
 
     /// The number of elements in the data.
@@ -15,6 +15,7 @@ pub trait DataEmptyTrait: DataTrait {
     fn empty() -> Self;
 }
 
+/// A marker for creating data filled with a given value.
 pub trait DataFullTrait: DataTrait
 where
     Self::Type: Copy + Zero + One,

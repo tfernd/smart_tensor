@@ -14,6 +14,7 @@ where
     unsafe fn new(data: Self::Data) -> Self;
 }
 
+/// A marker to create a tensor with empty data.
 pub trait TensorEmptyTrait: TensorTrait
 where
     Self::Data: DataEmptyTrait,
@@ -26,6 +27,7 @@ where
     }
 }
 
+/// A marker to create a tensor filled with a given value.
 pub trait TensorFullTrait: TensorTrait
 where
     Self::Data: DataFullTrait,

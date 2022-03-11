@@ -1,12 +1,14 @@
 use num_traits::{One, Zero};
 
 mod aliases;
+#[doc(hidden)]
 pub use aliases::*;
 
 use crate::traits::{
     DataEmptyTrait, DataFullTrait, DataTrait, TensorEmptyTrait, TensorFullTrait, TensorTrait,
 };
 
+#[doc(hidden)]
 macro_rules! make_tensor {
     ( $tensor:ident, [$($s:tt)+] ) => {
         /// A n-dimensional tensor.

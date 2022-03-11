@@ -1,5 +1,8 @@
+#[doc(hidden)]
 mod impl_data_empty;
+#[doc(hidden)]
 mod impl_data_full;
+#[doc(hidden)]
 mod impl_data_trait;
 
 /// Data structure that owns data on the stack.

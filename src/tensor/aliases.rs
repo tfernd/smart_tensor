@@ -1,6 +1,7 @@
 use super::*;
 use crate::{HeapData, StackData};
 
+#[doc(hidden)]
 macro_rules! make_aliases {
     ( $alias:ident, $tensor:ident, $data:ident, [$($s:tt)+] ) => {
         pub type $alias<T, $(const $s: usize),+> = $tensor<$data<T, {shape_numel!([$($s)+])}>, $($s),+>;
