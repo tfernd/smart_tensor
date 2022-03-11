@@ -6,9 +6,9 @@ edition = "2021"
 readme = "README.md"
 keywords = ["tensor", "array"]
 repository = "https://github.com/tfernd/smart_tensor"
-# description = ""
-# documentation = ""
-# license = "MIT OR Apache-2.0"
+description = "A Tensor library with focus in compile-time safety in shape operations."
+# documentation = "?"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 num-traits = "0.2.14"
