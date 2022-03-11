@@ -10,6 +10,7 @@ where
     /// The data structure type.
     type Data;
 
+    /// The shape of the tensor.
     const SHAPE: [usize; DIM];
 
     /// Creates a new tensor from `data`.
