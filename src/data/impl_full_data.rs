@@ -1,9 +1,9 @@
 use num_traits::{One, Zero};
 
 use super::*;
-use crate::traits::DataFullTrait;
+use crate::traits::FullData;
 
-impl<T, const NUMEL: usize> DataFullTrait for StackData<T, NUMEL>
+impl<T, const NUMEL: usize> FullData for StackData<T, NUMEL>
 where
     T: Copy + Zero + One,
 {
@@ -13,7 +13,7 @@ where
     }
 }
 
-impl<T, const NUMEL: usize> DataFullTrait for HeapData<T, NUMEL>
+impl<T, const NUMEL: usize> FullData for HeapData<T, NUMEL>
 where
     T: Copy + Zero + One,
 {

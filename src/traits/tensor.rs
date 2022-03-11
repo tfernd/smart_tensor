@@ -1,28 +1,28 @@
 use num_traits::{One, Zero};
 
-use super::{DataEmptyTrait, DataFullTrait, DataTrait};
+use super::{Data, EmptyData, FullData, FullLikeData};
 
-/// A marker for tensor.
-pub trait TensorTrait<const DIM: usize>: Sized
+/// A marker for n-dimensional tensor with fixed-sized number of elements.
+pub trait Tensor<const DIM: usize>: Sized
 where
-    Self::Data: DataTrait,
+    Self::Data: Data,
 {
     /// The data structure type.
     type Data;
 
     /// The shape of the tensor.
-    const SHAPE: [usize; DIM];
+    const SHAPE: [usize; DIM]; // ? needed?
 
     /// Creates a new tensor from `data`.
     unsafe fn new(data: Self::Data) -> Self;
 }
 
-/// A marker to create a tensor with empty data.
-pub trait TensorEmptyTrait<const DIM: usize>: TensorTrait<DIM>
+/// A marker for creating of an empty (unitialized) tensor.
+pub trait EmptyTensor<const DIM: usize>: Tensor<DIM>
 where
-    Self::Data: DataEmptyTrait,
+    Self::Data: EmptyData,
 {
-    /// Creates an empty tensor.
+    /// Creates an empty (unitialized) tensor.
     #[inline]
     fn empty() -> Self {
         let data = Self::Data::empty();
@@ -30,30 +30,34 @@ where
     }
 }
 
-/// A marker to create a tensor filled with a given value.
-pub trait TensorFullTrait<const DIM: usize>: TensorTrait<DIM>
+/// A marker for creating a tensor filled with a given value.
+pub trait FullTensor<const DIM: usize>: Tensor<DIM>
 where
-    Self::Data: DataFullTrait,
-    // ? It is possible to avoid this madness?
-    <<Self as TensorTrait<DIM>>::Data as DataTrait>::Type: Copy + Zero + One,
+    Self::Data: FullData,
+    <Self::Data as Data>::Item: Copy + Zero + One,
 {
-    /// Creates a data structure filled with `value`.
-    fn full(value: <<Self as TensorTrait<DIM>>::Data as DataTrait>::Type) -> Self {
+    /// Creates a tensor filled with `value`.
+    fn full(value: <Self::Data as Data>::Item) -> Self {
         let data = Self::Data::full(value);
         unsafe { Self::new(data) }
     }
 
-    /// Creates a data structure filled with zeros.
+    /// Creates a tensor filled with zeros.
     #[inline]
     fn zeros() -> Self {
         let data = Self::Data::zeros();
         unsafe { Self::new(data) }
     }
 
-    /// Creates a data structure filled with ones.
+    /// Creates a tensor filled with ones.
     #[inline]
     fn ones() -> Self {
         let data = Self::Data::ones();
         unsafe { Self::new(data) }
     }
 }
+
+// ? How to implement this?
+// / A marker for creating a tensor filled with a given value
+// / with the same container type as the data.
+// pub trait FullLikeTensor<const DIM: usize>: Tensor<DIM> {}

@@ -4,7 +4,8 @@ use crate::{HeapData, StackData};
 #[doc(hidden)]
 macro_rules! make_aliases {
     ( $alias:ident, $tensor:ident, $data:ident, [$($s:tt)+] ) => {
-        pub type $alias<T, $(const $s: usize),+> = $tensor<$data<T, {shape_numel!([$($s)+])}>, $($s),+>;
+        /// An n-dimensional tensor.
+        pub type $alias<T, $(const $s: usize),+, const CANNONICAL: bool=true> = $tensor<$data<T, {shape_numel!([$($s)+])}>, $($s),+, CANNONICAL>;
     };
 }
 

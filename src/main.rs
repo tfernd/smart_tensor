@@ -1,7 +1,6 @@
-#![allow(dead_code, unused_variables, incomplete_features)]
+#![allow(dead_code, unused_variables, unused_imports, incomplete_features)]
 #![feature(generic_const_exprs)]
 
-#[doc(hidden)]
 #[macro_use]
 mod macros;
 
@@ -10,19 +9,11 @@ mod stride;
 mod tensor;
 mod traits;
 
-#[doc(hidden)]
 pub use data::*;
-#[doc(hidden)]
-pub use stride::*;
-#[doc(hidden)]
+pub use stride::Stride;
 pub use tensor::*;
-#[doc(hidden)]
 pub use traits::*;
 
-// TODO change main to lib after testing
-#[doc(hidden)]
 fn main() {
-    let x = HeapTensor1::<u8, 100>::empty();
-
-    println!("{:?}", x);
+    let x = StackTensor1::<f32, 100>::full(1.0);
 }
