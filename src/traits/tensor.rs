@@ -29,6 +29,7 @@ where
 pub trait TensorFullTrait: TensorTrait
 where
     Self::Data: DataFullTrait,
+    // ? It is possible to avoid this madness?
     <<Self as TensorTrait>::Data as DataTrait>::Type: Copy + Zero + One,
 {
     /// Creates a data structure filled with `value`.
