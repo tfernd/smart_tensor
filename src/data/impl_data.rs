@@ -13,5 +13,5 @@ macro_rules! impl_data {
 
 impl_data!(StackData);
 impl_data!(HeapData);
-impl_data!(SliceData 'a STACK);
-impl_data!(MutSliceData 'a STACK);
+impl_data!(RefData 'a STACK);
+impl_data!(MutRefData 'a STACK);

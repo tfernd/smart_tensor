@@ -1,3 +1,5 @@
+mod impl_as_mut_ref;
+mod impl_as_ref;
 mod impl_data;
 mod impl_empty_data;
 mod impl_full_data;
@@ -13,8 +15,8 @@ pub struct HeapData<T, const NUMEL: usize>(pub(crate) Vec<T>);
 
 /// Data structure that references immutably data.
 #[derive(Debug)]
-pub struct SliceData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a [T]);
+pub struct RefData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a [T]);
 
 /// Data structure that references mutably data.
 #[derive(Debug)]
-pub struct MutSliceData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a mut [T]);
+pub struct MutRefData<'a, T, const NUMEL: usize, const STACK: bool>(pub(crate) &'a mut [T]);

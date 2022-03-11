@@ -43,9 +43,11 @@ where
     Self::Output: FullData<Item = Self::Item>,
     Self::Item: Copy + Zero + One,
 {
+    /// The data output type.
     type Output;
 
     /// Creates a data structure filled with `value` with same length.
+    #[inline]
     fn full_like(&self, value: Self::Item) -> Self::Output {
         Self::Output::full(value)
     }
@@ -59,4 +61,30 @@ where
     fn ones_like(&self) -> Self::Output {
         self.full_like(Self::Item::one())
     }
+}
+
+/// A marker for creating imutable data references.
+pub trait AsRefData<'a>: Data
+where
+    Self::Output: Data<Item = Self::Item>,
+    Self::Item: 'a,
+{
+    /// The data output type.
+    type Output;
+
+    /// Creates a reference to the data.
+    fn as_ref_data(&'a self) -> Self::Output;
+}
+
+/// A marker for creating mutable data references.
+pub trait AsMutRefData<'a>: Data
+where
+    Self::Output: Data<Item = Self::Item>,
+    Self::Item: 'a,
+{
+    /// The data output type.
+    type Output;
+
+    /// Creates a reference to the data.
+    fn as_mut_ref_data(&'a mut self) -> Self::Output;
 }
