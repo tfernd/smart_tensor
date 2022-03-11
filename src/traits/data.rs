@@ -7,6 +7,8 @@ pub trait Data: Sized {
 
     /// The number of elements in the data.
     const NUMEL: usize;
+
+    // ? Add new?
 }
 
 /// A marker for creating empty (unitialized) data.
@@ -52,11 +54,13 @@ where
         Self::Output::full(value)
     }
 
+    /// Creates a data structure filled with zeros with same length.
     #[inline]
     fn zeros_like(&self) -> Self::Output {
         self.full_like(Self::Item::zero())
     }
 
+    /// Creates a data structure filled with ones with same length.
     #[inline]
     fn ones_like(&self) -> Self::Output {
         self.full_like(Self::Item::one())
@@ -66,6 +70,7 @@ where
 /// A marker for creating imutable data references.
 pub trait AsRefData<'a>: Data
 where
+    // ? lifetime bound needed?
     Self::Output: Data<Item = Self::Item>,
     Self::Item: 'a,
 {
@@ -79,6 +84,7 @@ where
 /// A marker for creating mutable data references.
 pub trait AsMutRefData<'a>: Data
 where
+    // ? lifetime bound needed?
     Self::Output: Data<Item = Self::Item>,
     Self::Item: 'a,
 {
