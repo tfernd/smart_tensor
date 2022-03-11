@@ -1,5 +1,5 @@
 mod data;
 mod tensor;
 
-pub use data::Data;
-pub use tensor::Tensor;
+pub use data::*;
+pub use tensor::*;
