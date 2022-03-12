@@ -1,96 +1,95 @@
 use num_traits::{One, Zero};
 
-/// A marker for structures that contains array elements with fixed size.
+/// A trait for a data containers.
 pub trait Data: Sized {
-    /// The data type of the elements in data.
+    /// The type of the elements in the container.
     type Item;
-
-    /// The number of elements in the data.
-    const NUMEL: usize;
-
-    // ? Add new?
 }
 
-/// A marker for creating empty (unitialized) data.
+/// A trait for data containers of the same size.
+///
+/// **Implementations need to make sure they indeed have the same size!**
+pub unsafe trait SameDataSize<T>
+where
+    Self: Data,
+    T: Data<Item = Self::Item>,
+{
+}
+
+/// A trait for creating data containers with unitialized elements.
 pub trait EmptyData: Data {
-    /// Creates empty (unitialized) data.
+    /// Creates a data container with unitialized elements.
     fn empty() -> Self;
 }
 
-/// A marker for creating data filled with a given value.
+/// A trait for creating data containers with unitialized elements
+/// based on `self`.
+pub trait EmptyLikeData: Data
+where
+    Self::Output: EmptyData<Item = Self::Item>,
+    Self: SameDataSize<Self::Output>,
+{
+    /// The type of the data container output.
+    type Output;
+
+    /// Creates a data container with unitialized elements
+    /// based on `self`.
+    #[inline]
+    fn empty_like(&self) -> Self::Output {
+        Self::Output::empty()
+    }
+}
+
+/// A trait for creating data containers filled with a given value.
 pub trait FullData: Data
 where
     Self::Item: Copy + Zero + One,
 {
-    /// Creates a data structure filled with `value`.
+    /// Creates a data container filled with a given value.
     fn full(value: Self::Item) -> Self;
 
-    /// Creates a data structure filled with zeros.
+    /// Creates a data container filled with zeros.
     #[inline]
     fn zeros() -> Self {
         Self::full(Self::Item::zero())
     }
 
-    /// Creates a data structure filled with ones.
+    /// Creates a data container filled with ones.
     #[inline]
     fn ones() -> Self {
         Self::full(Self::Item::one())
     }
 }
 
-/// A marker for creating data filled with a given value
-/// with the same container type as the data.
+/// A trait for creating data containers filled with a given value
+/// based on `self`.
 pub trait FullLikeData: Data
 where
-    Self::Output: FullData<Item = Self::Item>,
     Self::Item: Copy + Zero + One,
+    Self::Output: FullData<Item = Self::Item>,
+    Self: SameDataSize<Self::Output>,
 {
-    /// The data output type.
+    /// The type of the data container output.
     type Output;
 
-    /// Creates a data structure filled with `value` with same length.
+    /// Creates a data container filled with a given value
+    /// based on `self`.
     #[inline]
     fn full_like(&self, value: Self::Item) -> Self::Output {
         Self::Output::full(value)
     }
 
-    /// Creates a data structure filled with zeros with same length.
+    /// Creates a data container filled with zeros
+    /// based on `self`.
     #[inline]
     fn zeros_like(&self) -> Self::Output {
         self.full_like(Self::Item::zero())
     }
 
-    /// Creates a data structure filled with ones with same length.
+    /// Creates a data container filled with ones
+    /// based on `self`.
     #[inline]
     fn ones_like(&self) -> Self::Output {
         self.full_like(Self::Item::one())
     }
-}
-
-/// A marker for creating imutable data references.
-pub trait AsRefData<'a>: Data
-where
-    // ? lifetime bound needed?
-    Self::Output: Data<Item = Self::Item>,
-    Self::Item: 'a,
-{
-    /// The data output type.
-    type Output;
-
-    /// Creates a reference to the data.
-    fn as_ref_data(&'a self) -> Self::Output;
-}
-
-/// A marker for creating mutable data references.
-pub trait AsMutRefData<'a>: Data
-where
-    // ? lifetime bound needed?
-    Self::Output: Data<Item = Self::Item>,
-    Self::Item: 'a,
-{
-    /// The data output type.
-    type Output;
-
-    /// Creates a reference to the data.
-    fn as_mut_ref_data(&'a mut self) -> Self::Output;
 }
